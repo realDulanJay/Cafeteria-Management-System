@@ -1,0 +1,76 @@
+<html>
+
+<head>
+    <style>
+        table {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3 style="text-align: center">Cafeteria Management System</h3>
+    <table>
+        <tr>
+            <th>Name: <%= name %>
+            </th>
+            <th>Email: <%= email %>
+            </th>
+        </tr>
+        <tr>
+            <th>Contact Number: <%= contactNumber %>
+            </th>
+            <th>Payment Method: <%= paymentMethod %>
+            </th>
+        </tr>
+    </table>
+
+    <h3>Product Details</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Sub Total</th>
+        </tr>
+        <% if(productDetails.length> 0) { %> <% productDetails.forEach(product=> {
+                %>
+                <tr>
+                    <td>
+                        <%= product.name %>
+                    </td>
+                    <td>
+                        <%= product.category %>
+                    </td>
+                    <td>
+                        <%= product.quantity %>
+                    </td>
+                    <td>
+                        <%= product.price %>
+                    </td>
+                    <td>
+                        <%= product.total %>
+                    </td>
+                </tr>
+                <% }); %>
+                    <% } %>
+    </table>
+    <h3>
+        Total: <%= totalAmount %>
+    </h3>
+    <h3>
+        Thank You. Please come again!
+    </h3>
+</body>
+
+</html>
