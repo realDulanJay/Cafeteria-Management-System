@@ -62,14 +62,6 @@ a:hover{
 }
 
 
-.footer {
-  padding: 6px;
-  text-align: center;
-  color: white;
-  background: #e53935;
-}
-
-
 @media screen and (max-width: 700px) {
   .row, .navbar {   
     flex-direction: column;
@@ -163,6 +155,7 @@ a:hover::after {
 @media (max-width: 1024px) {
   .wrapper {
     height: auto;
+    opacity: 0.8;
   }
   
   nav {
@@ -183,7 +176,11 @@ a:hover::after {
   }
   
   ul li a {
-    margin-left: 0px;
+    margin-left: 15px;
+  }
+
+  .bg-image{
+    background-position: center;
   }
 }
 
@@ -204,6 +201,11 @@ a:hover::after {
   ul li a {
     margin-left: 0px;
   }
+
+  .bg-image{
+    background-position: center;
+  }
+
 }
 
 .sticky {
@@ -216,19 +218,15 @@ a:hover::after {
 .mat-icon {
   vertical-align: middle;
 }
+
+
+
 .bg-image {
   
-  background-image: url("../../assets/img/food1.jpg");
+  background-image: url("../../assets/img/cafe1.jpg");
   
+  height: 100%;
   
-  filter: blur(3px);
-  -webkit-filter: blur(3px);
-  
-  
-  height: 100%; 
-  
-  
-  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -249,3 +247,5 @@ a:hover::after {
   padding: 20px;
   text-align: center;
 }
+
+
