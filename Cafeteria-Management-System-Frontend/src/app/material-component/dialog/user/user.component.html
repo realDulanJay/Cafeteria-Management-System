@@ -1,0 +1,28 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row fxLayout="row">
+        <span class="title-center">{{dialogData.action}} User</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="userForm">
+        <div fxFlex fxLayout="column">
+            <div fxLayout="row-wrap">
+                <mat-form-field appearance="fill" fxFlex>
+                    <mat-label>Contact Number</mat-label>
+                    <input matInput formControlName="contactNumber" required>
+                    <mat-error
+                        *ngIf="userForm.controls.contactNumber.touched && userForm.controls.contactNumber.invalid">
+                        <span *ngIf="userForm.controls.contactNumber.errors.required">This field is mandatory.</span>
+                        <span *ngIf="userForm.controls.contactNumber.errors.pattern">This field is invalid.</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+    <button mat-raised-button color="primary" type="submit" (click)="edit()"
+        [disabled]="!(userForm.valid && userForm.dirty)">{{action}}</button>
+    <button mat-raised-button color="primary" mat-dialog-close="">Close</button>
+</mat-dialog-actions>

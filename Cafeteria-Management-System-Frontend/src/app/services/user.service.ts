@@ -46,4 +46,20 @@ export class UserService {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
     });
   }
+
+  updateContactNumber(data: any) {
+    return this.httpClient.patch(
+      this.url + '/user/updateContactNumber/',
+      data,
+      {
+        headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      }
+    );
+  }
+
+  delete(id: any) {
+    return this.httpClient.delete(this.url + '/user/delete/' + id, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+    });
+  }
 }

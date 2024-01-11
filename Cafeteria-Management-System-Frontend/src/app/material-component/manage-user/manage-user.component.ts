@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
+import { UserComponent } from '../dialog/user/user.component';
+import { Router } from '@angular/router';
+import { ConfirmationComponent } from '../dialog/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-manage-user',
@@ -16,6 +20,8 @@ export class ManageUserComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private router: Router,
+    private dialog: MatDialog,
     private snackbarService: SnackbarService //private ngxService: NgxUiService
   ) {}
 
@@ -60,6 +66,63 @@ export class ManageUserComponent implements OnInit {
     this.userService.update(data).subscribe(
       (response: any) => {
         //this.ngxService.stop();
+        this.responseMessage = response?.message;
+        this.snackbarService.openSnackBar(this.responseMessage, 'success');
+      },
+      (error: any) => {
+        //this.ngxService.stop();
+        console.log(error);
+        if (error.error?.message) {
+          this.responseMessage = error.error?.message;
+        } else {
+          this.responseMessage = GlobalConstants.genericError;
+        }
+        this.snackbarService.openSnackBar(
+          this.responseMessage,
+          GlobalConstants.error
+        );
+      }
+    );
+  }
+
+  handleEditAction(values: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'Edit',
+      data: values,
+    };
+    dialogConfig.width = '850px';
+    const dialogRef = this.dialog.open(UserComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
+    const sub = dialogRef.componentInstance.onEditCategory.subscribe(
+      (response) => {
+        this.tableData();
+      }
+    );
+  }
+
+  handleDeleteAction(values: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      message: 'delete ' + values.name + ' user',
+    };
+    const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
+    const sub = dialogRef.componentInstance.onEmitStatusChange.subscribe(
+      (response) => {
+        //this.ngxService.start();
+        this.deleteUser(values.id);
+        dialogRef.close();
+      }
+    );
+  }
+
+  deleteUser(id: any) {
+    this.userService.delete(id).subscribe(
+      (response: any) => {
+        //this.ngxService.stop();
+        this.tableData();
         this.responseMessage = response?.message;
         this.snackbarService.openSnackBar(this.responseMessage, 'success');
       },
