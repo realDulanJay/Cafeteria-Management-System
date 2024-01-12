@@ -5,3 +5,5 @@ Cafeteria-Management-System-Backend/.env
 
 #frontend
 Cafeteria-Management-System-Frontend/node_modules
+
+Cafeteria-Management-System-Frontend/src/environments/environment.ts
