@@ -7,6 +7,7 @@ import { GlobalConstants } from 'src/app/shared/global-constants';
 import { UserComponent } from '../dialog/user/user.component';
 import { Router } from '@angular/router';
 import { ConfirmationComponent } from '../dialog/confirmation/confirmation.component';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-manage-user',
@@ -22,22 +23,23 @@ export class ManageUserComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private dialog: MatDialog,
-    private snackbarService: SnackbarService //private ngxService: NgxUiService
+    private snackbarService: SnackbarService,
+    private ngxService: NgxUiLoaderService
   ) {}
 
   ngOnInit(): void {
-    //this.ngxService.start();
+    this.ngxService.start();
     this.tableData();
   }
 
   tableData() {
     this.userService.getUsers().subscribe(
       (response: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         this.dataSource = new MatTableDataSource(response);
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         console.log(error);
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
@@ -58,19 +60,19 @@ export class ManageUserComponent implements OnInit {
   }
 
   handleChangeAction(status: any, id: any) {
-    //this.ngxService.start();
+    this.ngxService.start();
     var data = {
       status: status.toString(),
       id: id,
     };
     this.userService.update(data).subscribe(
       (response: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         this.responseMessage = response?.message;
         this.snackbarService.openSnackBar(this.responseMessage, 'success');
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         console.log(error);
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
@@ -111,7 +113,7 @@ export class ManageUserComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
     const sub = dialogRef.componentInstance.onEmitStatusChange.subscribe(
       (response) => {
-        //this.ngxService.start();
+        this.ngxService.start();
         this.deleteUser(values.id);
         dialogRef.close();
       }
@@ -121,13 +123,13 @@ export class ManageUserComponent implements OnInit {
   deleteUser(id: any) {
     this.userService.delete(id).subscribe(
       (response: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         this.tableData();
         this.responseMessage = response?.message;
         this.snackbarService.openSnackBar(this.responseMessage, 'success');
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         console.log(error);
         if (error.error?.message) {
           this.responseMessage = error.error?.message;

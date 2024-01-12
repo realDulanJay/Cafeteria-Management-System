@@ -6,6 +6,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
 import { saveAs } from 'file-saver';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-manage-order',
@@ -34,11 +35,12 @@ export class ManageOrderComponent implements OnInit {
     private categoryService: CategoryService,
     private productService: ProductService,
     private snackbarService: SnackbarService,
-    private billService: BillService //private ngxService: NgxUiLoaderService
+    private billService: BillService,
+    private ngxService: NgxUiLoaderService
   ) {}
 
   ngOnInit(): void {
-    //this.ngxService.start();
+    this.ngxService.start();
     this.getCategories();
     this.manageOrderForm = this.formBuilder.group({
       name: [
@@ -68,11 +70,11 @@ export class ManageOrderComponent implements OnInit {
   getCategories() {
     this.categoryService.getCategory().subscribe(
       (response: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         this.categories = response;
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
         } else {
@@ -95,7 +97,7 @@ export class ManageOrderComponent implements OnInit {
         this.manageOrderForm.controls['total'].setValue('');
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
         } else {
@@ -118,7 +120,7 @@ export class ManageOrderComponent implements OnInit {
         this.manageOrderForm.controls['total'].setValue(this.price * 1);
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
         } else {
@@ -215,7 +217,7 @@ export class ManageOrderComponent implements OnInit {
   }
 
   submitAction() {
-    //this.ngxService.start();
+    this.ngxService.start();
     var formData = this.manageOrderForm.value;
     var data = {
       name: formData.name,
@@ -233,7 +235,7 @@ export class ManageOrderComponent implements OnInit {
         this.totalAmount = 0;
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
         } else {
@@ -253,7 +255,7 @@ export class ManageOrderComponent implements OnInit {
     };
     this.billService.getPdf(data).subscribe((response: any) => {
       saveAs(response, fileName + '.pdf');
-      //this.ngxService.stop();
+      this.ngxService.stop();
     });
   }
 }

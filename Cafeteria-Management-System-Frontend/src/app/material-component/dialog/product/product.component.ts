@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { CategoryService } from 'src/app/services/category.service';
 import { ProductService } from 'src/app/services/product.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -26,7 +27,8 @@ export class ProductComponent implements OnInit {
     private productService: ProductService,
     public dialogRef: MatDialogRef<ProductComponent>,
     private categoryService: CategoryService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private ngxService: NgxUiLoaderService
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +78,7 @@ export class ProductComponent implements OnInit {
   }
 
   add() {
+    this.ngxService.start();
     var formData = this.productForm.value;
     var data = {
       name: formData.name,
@@ -85,12 +88,14 @@ export class ProductComponent implements OnInit {
     };
     this.productService.add(data).subscribe(
       (response: any) => {
+        this.ngxService.stop();
         this.dialogRef.close();
         this.onAddProduct.emit();
         this.responseMessage = response.message;
         this.snackbarService.openSnackBar(this.responseMessage, 'message');
       },
       (error: any) => {
+        this.ngxService.stop();
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
         } else {
@@ -105,6 +110,7 @@ export class ProductComponent implements OnInit {
   }
 
   edit() {
+    this.ngxService.start();
     var formData = this.productForm.value;
     var data = {
       id: this.dialogData.data.id,
@@ -115,12 +121,14 @@ export class ProductComponent implements OnInit {
     };
     this.productService.update(data).subscribe(
       (response: any) => {
+        this.ngxService.stop();
         this.dialogRef.close();
         this.onEditProduct.emit();
         this.responseMessage = response.message;
         this.snackbarService.openSnackBar(this.responseMessage, 'message');
       },
       (error: any) => {
+        this.ngxService.stop();
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
         } else {

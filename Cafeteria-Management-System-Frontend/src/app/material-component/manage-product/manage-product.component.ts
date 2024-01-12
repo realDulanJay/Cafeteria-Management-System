@@ -7,6 +7,7 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
 import { ProductComponent } from '../dialog/product/product.component';
 import { ConfirmationComponent } from '../dialog/confirmation/confirmation.component';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-manage-product',
@@ -26,25 +27,25 @@ export class ManageProductComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    //private ngxService: NgxUiLoaderService,
+    private ngxService: NgxUiLoaderService,
     private dialog: MatDialog,
     private snackbarService: SnackbarService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    //this.ngxService.start();
+    this.ngxService.start();
     this.tableData();
   }
 
   tableData() {
     this.productService.getProducts().subscribe(
       (response: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         this.dataSource = new MatTableDataSource(response);
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         console.log(error);
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
@@ -107,7 +108,7 @@ export class ManageProductComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
     const sub = dialogRef.componentInstance.onEmitStatusChange.subscribe(
       (response) => {
-        //this.ngxService.start();
+        this.ngxService.start();
         this.deleteProduct(values.id);
         dialogRef.close();
       }
@@ -117,13 +118,13 @@ export class ManageProductComponent implements OnInit {
   deleteProduct(id: any) {
     this.productService.delete(id).subscribe(
       (response: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         this.tableData();
         this.responseMessage = response?.message;
         this.snackbarService.openSnackBar(this.responseMessage, 'success');
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         console.log(error);
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
@@ -139,18 +140,19 @@ export class ManageProductComponent implements OnInit {
   }
 
   onChange(status: any, id: any) {
+    this.ngxService.start();
     var data = {
       status: status.toString(),
       id: id,
     };
     this.productService.updateStatus(data).subscribe(
       (response: any) => {
-        //ths.ngxService.stop();
+        this.ngxService.stop();
         this.responseMessage = response?.message;
         this.snackbarService.openSnackBar(this.responseMessage, 'success');
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         console.log(error);
         if (error.error?.message) {
           this.responseMessage = error.error?.message;

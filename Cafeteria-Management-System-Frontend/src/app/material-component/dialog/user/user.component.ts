@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
@@ -23,7 +24,8 @@ export class UserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     public dialogRef: MatDialogRef<UserComponent>,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private ngxService: NgxUiLoaderService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +42,7 @@ export class UserComponent implements OnInit {
   }
 
   edit() {
+    this.ngxService.start();
     var formData = this.userForm.value;
     var data = {
       id: this.dialogData.data.id,
@@ -47,12 +50,14 @@ export class UserComponent implements OnInit {
     };
     this.userService.updateContactNumber(data).subscribe(
       (response: any) => {
+        this.ngxService.stop();
         this.dialogRef.close();
         this.onEditCategory.emit();
         this.responseMessage = response.message;
         this.snackbarService.openSnackBar(this.responseMessage, 'success');
       },
       (error: any) => {
+        this.ngxService.stop();
         this.dialogRef.close();
         if (error.error?.message) {
           this.responseMessage = error.error?.message;

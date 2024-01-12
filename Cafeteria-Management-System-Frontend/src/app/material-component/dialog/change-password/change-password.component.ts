@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
@@ -18,7 +19,7 @@ export class ChangePasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     public dialogRef: MatDialogRef<ChangePasswordComponent>,
-    // private ngxService: NgxUiLoaderService,
+    private ngxService: NgxUiLoaderService,
     private snackbarService: SnackbarService
   ) {}
 
@@ -42,7 +43,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   handleChangePasswordSubmit() {
-    //this.ngxService.start();
+    this.ngxService.start();
     var formData = this.changePasswordForm.value;
     var data = {
       oldPassword: formData.oldPassword,
@@ -51,13 +52,13 @@ export class ChangePasswordComponent implements OnInit {
     };
     this.userService.changePassword(data).subscribe(
       (response: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         this.responseMessage = response?.message;
         this.dialogRef.close();
         this.snackbarService.openSnackBar(this.responseMessage, 'success');
       },
       (error) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         console.log(error);
         if (error.error?.message) {
           this.responseMessage = error.error?.message;

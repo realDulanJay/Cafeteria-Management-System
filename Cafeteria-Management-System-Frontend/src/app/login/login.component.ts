@@ -5,6 +5,7 @@ import { SnackbarService } from '../services/snackbar.service';
 import { UserService } from '../services/user.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { GlobalConstants } from '../shared/global-constants';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private snackbarService: SnackbarService,
+    private ngxService: NgxUiLoaderService,
     private dialogRef: MatDialogRef<LoginComponent>
   ) {}
 
@@ -34,7 +36,7 @@ export class LoginComponent implements OnInit {
   }
 
   handleSubmit() {
-    //start loader
+    this.ngxService.start();
     var formData = this.loginForm.value;
     var data = {
       email: formData.email,
@@ -42,7 +44,7 @@ export class LoginComponent implements OnInit {
     };
     this.userService.login(data).subscribe(
       (response: any) => {
-        //stop loader
+        this.ngxService.stop();
         this.dialogRef.close();
         localStorage.setItem('token', response.token);
         this.responseMessage = response?.message;
@@ -50,7 +52,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/cafeteria/dashboard']);
       },
       (error) => {
-        //stop loader
+        this.ngxService.stop();
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
         } else {

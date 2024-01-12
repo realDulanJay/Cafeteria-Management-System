@@ -8,6 +8,7 @@ import { GlobalConstants } from 'src/app/shared/global-constants';
 import { ViewBillProductsComponent } from '../dialog/view-bill-products/view-bill-products.component';
 import { ConfirmationComponent } from '../dialog/confirmation/confirmation.component';
 import { saveAs } from 'file-saver';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-view-bill',
@@ -28,25 +29,25 @@ export class ViewBillComponent implements OnInit {
 
   constructor(
     private billService: BillService,
-    //private ngxService: NgxUiLoaderService,
+    private ngxService: NgxUiLoaderService,
     private dialog: MatDialog,
     private snackbarService: SnackbarService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    //this.ngxService.start();
+    this.ngxService.start();
     this.tableData();
   }
 
   tableData() {
     this.billService.getBills().subscribe(
       (response: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         this.dataSource = new MatTableDataSource(response);
       },
       (error: any) => {
-        //this.ngxService.stop;
+        this.ngxService.stop;
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
         } else {
@@ -78,7 +79,7 @@ export class ViewBillComponent implements OnInit {
   }
 
   downloadReportAction(values: any) {
-    //this.ngxService.start();
+    this.ngxService.start();
     var data = {
       name: values.name,
       email: values.email,
@@ -90,7 +91,7 @@ export class ViewBillComponent implements OnInit {
     };
     this.billService.getPdf(data).subscribe((response) => {
       saveAs(response, values.uuid + '.pdf');
-      //this.ngxService.stop();
+      this.ngxService.stop();
     });
   }
 
@@ -102,7 +103,7 @@ export class ViewBillComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
     const sub = dialogRef.componentInstance.onEmitStatusChange.subscribe(
       (response) => {
-        //this.ngxService.start();
+        this.ngxService.start();
         this.deleteProduct(values.id);
         dialogRef.close();
       }
@@ -112,13 +113,13 @@ export class ViewBillComponent implements OnInit {
   deleteProduct(id: any) {
     this.billService.delete(id).subscribe(
       (response: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         this.tableData();
         this.responseMessage = response?.message;
         this.snackbarService.openSnackBar(this.responseMessage, 'success');
       },
       (error: any) => {
-        //this.ngxService.stop;
+        this.ngxService.stop;
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
         } else {

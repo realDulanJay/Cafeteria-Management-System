@@ -17,6 +17,24 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { TokenInterceptorInterceptor } from './services/token-interceptor.interceptor';
+import {
+  NgxUiLoaderModule,
+  SPINNER,
+  PB_DIRECTION,
+  NgxUiLoaderConfig,
+} from 'ngx-ui-loader';
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  text: 'Loading...',
+  textPosition: 'center-center',
+  pbColor: 'red',
+  bgsColor: 'red',
+  fgsColor: 'red',
+  fgsType: SPINNER.ballSpinClockwise,
+  fgsSize: 100,
+  pbDirection: PB_DIRECTION.leftToRight,
+  pbThickness: 5,
+};
 
 @NgModule({
   declarations: [
@@ -40,6 +58,7 @@ import { TokenInterceptorInterceptor } from './services/token-interceptor.interc
     SharedModule,
     HttpClientModule,
     MatProgressSpinnerModule,
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
   ],
   providers: [
     HttpClientModule,

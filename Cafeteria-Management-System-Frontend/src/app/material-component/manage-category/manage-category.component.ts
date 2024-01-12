@@ -6,6 +6,7 @@ import { CategoryService } from 'src/app/services/category.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
 import { CategoryComponent } from '../dialog/category/category.component';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-manage-category',
@@ -19,25 +20,25 @@ export class ManageCategoryComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    //private ngxService: NgxUiLoaderService,
+    private ngxService: NgxUiLoaderService,
     private dialog: MatDialog,
     private snackbarService: SnackbarService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    //this.ngxService.start();
+    this.ngxService.start();
     this.tableData();
   }
 
   tableData() {
     this.categoryService.getCategory().subscribe(
       (response: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         this.dataSource = new MatTableDataSource(response);
       },
       (error: any) => {
-        //this.ngxService.stop();
+        this.ngxService.stop();
         if (error.error?.message) {
           this.responseMessage = error.error?.message;
         } else {
