@@ -12,7 +12,7 @@
                 <input matInput formControlName="email" required>
                 <mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
                     <span *ngIf="loginForm.controls.email.errors.required">This field is mandatory.</span>
-                    <span *ngIf="loginForm.controls.name.errors.pattern">This field is invalid.</span>
+                    <span *ngIf="loginForm.controls.email.errors.pattern">This field is invalid.</span>
                 </mat-error>
             </mat-form-field>
 
@@ -21,7 +21,7 @@
                 <input matInput formControlName="password" type="password" required>
                 <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
                     <span *ngIf="loginForm.controls.password.errors.required">This field is mandatory.</span>
-                    <span *ngIf="loginForm.controls.name.errors.pattern">This field is invalid.</span>
+                    <span *ngIf="loginForm.controls.password.errors.pattern">This field is invalid.</span>
                 </mat-error>
             </mat-form-field>
         </div>
