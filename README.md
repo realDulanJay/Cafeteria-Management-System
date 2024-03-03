@@ -55,7 +55,7 @@ Angular, Node.js, Express.js, MySQL
    ng serve
 ```
 
-## Visit http://localhost:4200 in your browser
+Visit http://localhost:4200 in your browser
 
 ## Demo
 
@@ -65,7 +65,3 @@ Angular, Node.js, Express.js, MySQL
 
 ```bash
    git clone https://github.com/realDulanJay/Cafeteria-Management-System.git
-
-
-   
-
