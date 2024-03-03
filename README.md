@@ -49,7 +49,7 @@ Angular, Node.js, Express.js, MySQL
    npm start
 ```
 
-## Run the Backend
+## Run the Frontend
 
 ```
    ng serve
@@ -64,7 +64,7 @@ Angular, Node.js, Express.js, MySQL
 ## Clone the repository
 
 ```bash
-   git clone https://github.com/yourusername/cafeteria-Management-System.git
+   git clone https://github.com/realDulanJay/Cafeteria-Management-System.git
 
 
    
