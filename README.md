@@ -59,7 +59,7 @@ Angular, Node.js, Express.js, MySQL
 
 ## Demo
 
-(link)
+[(link)](https://realdulanjay.github.io/Cafeteria-Management-System-Frontend/)
 
 ## Clone the repository
 
